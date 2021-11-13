@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/eismann423/projects/udacity/FSND/projects/01_fyyur/starter_code/.venv"
+VIRTUAL_ENV="/home/eismann423/projects/udacity/FSND/projects/01_fyyur/fyyur/.venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

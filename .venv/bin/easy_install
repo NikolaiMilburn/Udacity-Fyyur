@@ -1,4 +1,4 @@
-#!/home/eismann423/projects/udacity/FSND/projects/01_fyyur/starter_code/.venv/bin/python3
+#!/home/eismann423/projects/udacity/FSND/projects/01_fyyur/fyyur/.venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

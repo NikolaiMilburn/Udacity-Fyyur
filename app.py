@@ -49,15 +49,6 @@ app.jinja_env.filters['datetime'] = format_datetime
 
 
 #----------------------------------------------------------------------------#
-# Show form errors
-#----------------------------------------------------------------------------#
-
-def show_form_errors(fieldName, errorMessages):
-  return flash( 'Some errors on ' + fieldName + ': ' + 
-  ' '.join([str(message) for message in errorMessages]), 'warning')
-
-
-#----------------------------------------------------------------------------#
 # Controllers.
 #----------------------------------------------------------------------------#
 
@@ -198,11 +189,7 @@ def create_venue_form():
 def create_venue_submission():
     error = False
     form = VenueForm(request.form)
-    if not form.validate():
-        for fieldName, errorMessages in form.errors.items():
-            show_form_errors(fieldName, errorMessages)
-
-        return render_template('forms/new_venue.html', form=form)
+    form.validate()
   
     try:
         name = request.form['name']
@@ -382,12 +369,8 @@ def edit_artist(artist_id):
 def edit_artist_submission(artist_id):
     error = False
     form = ArtistForm(request.form)
-    if not form.validate():
-        for fieldName, errorMessages in form.errors.items():
-            show_form_errors(fieldName, errorMessages)
+    form.validate()
 
-        return render_template('forms/new_artist.html', form=form)
-  
     try:
         artist = Artist.query.filter(Artist.id == artist_id).first()
 
@@ -440,11 +423,7 @@ def edit_venue(venue_id):
 def edit_venue_submission(venue_id):
     error = False
     form = VenueForm(request.form)
-    if not form.validate():
-        for fieldName, errorMessages in form.errors.items():
-            show_form_errors(fieldName, errorMessages)
-
-        return render_template('forms/new_artist.html', form=form)
+    form.validate
   
     try:
         venue = Venue.query.filter(Venue.id == venue_id).first()
@@ -488,11 +467,7 @@ def create_artist_form():
 def create_artist_submission():
     error = False
     form = ArtistForm(request.form)
-    if not form.validate():
-        for fieldName, errorMessages in form.errors.items():
-            show_form_errors(fieldName, errorMessages)
-
-        return render_template('forms/new_artist.html', form=form)
+    form.validate()
   
     try:
         name = request.form['name']
@@ -561,11 +536,7 @@ def create_shows():
 def create_show_submission():
     error = False
     form = ShowForm(request.form)
-    if not form.validate():
-        for fieldName, errorMessages in form.errors.items():
-            show_form_errors(fieldName, errorMessages)
-
-        return render_template('forms/new_show.html', form=form)
+    form.validate()
   
     try:
         artist_id = request.form['artist_id']

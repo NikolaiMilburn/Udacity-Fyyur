@@ -29,7 +29,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/eismann423/projects/udacity/FSND/projects/01_fyyur/starter_code/.venv"
+set -gx VIRTUAL_ENV "/home/eismann423/projects/udacity/FSND/projects/01_fyyur/fyyur/.venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
