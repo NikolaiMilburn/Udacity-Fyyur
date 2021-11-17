@@ -22,7 +22,7 @@ class Venue(db.Model):
     seeking_description = db.Column(db.String(250))
     genres = db.Column(db.ARRAY(db.String))
 
-    shows = db.relationship('Show', cascade="all, delete", backref='venue')
+    shows = db.relationship('Show', cascade="all, delete", backref='venue', lazy='joined')
 
 
 class Artist(db.Model):
@@ -40,7 +40,7 @@ class Artist(db.Model):
     seeking_description = db.Column(db.String(250))
     genres = db.Column(db.ARRAY(db.String))
 
-    shows = db.relationship('Show', cascade='all, delete', backref='artist')
+    shows = db.relationship('Show', cascade='all, delete', backref='artist', lazy='joined')
 
 
 class Show(db.Model):
