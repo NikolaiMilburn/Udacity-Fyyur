@@ -145,20 +145,17 @@ def search_venues():
 def show_venue(venue_id):
     venue = Venue.query.get_or_404(venue_id)
 
-    past_shows = []
-    upcoming_shows = []
+    past_shows = db.session.query(Show).join(Venue).filter(Show.venue_id==venue_id). \
+        filter(Show.start_time <= datetime.now()).all()
 
-    for show in venue.shows:
-        temp_show = {
-            'artist_id': show.artist.id,
-            'artist_name': show.artist.name,
-            'artist_image_link': show.artist.image_link,
-            'start_time': show.start_time.strftime('%m/%d/%Y, %H:%M')
-        }
-        if show.start_time <= datetime.now():
-            past_shows.append(temp_show)
-        else:
-            upcoming_shows.append(temp_show)
+    upcoming_shows = db.session.query(Show).join(Venue).filter(Show.venue_id==venue_id). \
+        filter(Show.start_time > datetime.now()).all()
+
+    for show in past_shows:
+        show.start_time = show.start_time.strftime('%m/%d/%Y, %H:%M')
+
+    for show in upcoming_shows:
+        show.start_time = show.start_time.strftime('%m/%d/%Y, %H:%M')
 
     data = vars(venue)
 
@@ -292,20 +289,17 @@ def search_artists():
 def show_artist(artist_id):
     artist = Artist.query.get_or_404(artist_id)
 
-    past_shows = []
-    upcoming_shows = []
+    past_shows = db.session.query(Show).join(Artist).filter(Show.artist_id==artist_id). \
+        filter(Show.start_time <= datetime.now()).all()
 
-    for show in artist.shows:
-        temp_show = {
-            'venue_id': show.venue_id,
-            'venue_name': show.venue.name,
-            'venue_image_link': show.venue.image_link,
-            'start_time': show.start_time.strftime("%m/%d/%Y, %H:%M")
-        }
-        if show.start_time <= datetime.now():
-            past_shows.append(temp_show)
-        else:
-            upcoming_shows.append(temp_show)
+    upcoming_shows = db.session.query(Show).join(Artist).filter(Show.artist_id==artist_id). \
+        filter(Show.start_time > datetime.now()).all()
+
+    for show in past_shows:
+        show.start_time = show.start_time.strftime('%m/%d/%Y, %H:%M')
+
+    for show in upcoming_shows:
+        show.start_time = show.start_time.strftime('%m/%d/%Y, %H:%M')
 
     data = vars(artist)
 
