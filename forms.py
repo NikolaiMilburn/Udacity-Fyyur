@@ -4,7 +4,12 @@ from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField
 from wtforms.validators import DataRequired, AnyOf, URL, InputRequired, ValidationError
 import re
 from enums import Genre, State
+from models import *
 
+
+#----------------------------------------------------------------------------#
+# Custom Validators.
+#----------------------------------------------------------------------------#
 
 def validate_phone(form, field):
     pattern = re.compile('^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$')
@@ -19,17 +24,32 @@ def validate_state(form, field):
     if field.data not in dict(State.choices()).keys():
         raise ValidationError("Invalid State")
 
+def validate_artist_id(form, field):
+    artist = db.session.query(Artist.id).filter_by(id = field.data).first()
+    if artist is None:
+        raise ValidationError("Invalid Artist Id")
+
+def validate_venue_id(form, field):
+    venue = db.session.query(Venue.id).filter_by(id = field.data).first()
+    if venue is None:
+        raise ValidationError("Invalid Venue Id")
+
+
+
+#----------------------------------------------------------------------------#
+# Forms.
+#----------------------------------------------------------------------------#
 
 class ShowForm(FlaskForm):
     artist_id = StringField(
-        'artist_id'
+        'artist_id', validators=[DataRequired(), validate_artist_id]
     )
     venue_id = StringField(
-        'venue_id'
+        'venue_id', validators=[DataRequired(), validate_venue_id]
     )
     start_time = DateTimeField(
         'start_time',
-        validators=[DataRequired()],
+        validators=[DataRequired(message=('Please enter valid time'))],
         default= datetime.today()
     )
 

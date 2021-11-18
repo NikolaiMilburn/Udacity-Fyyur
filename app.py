@@ -84,7 +84,7 @@ def venues():
 
     for area in areas:
         data_venues = []
-
+        
         venues = Venue.query \
             .filter_by(state=area.state) \
             .filter_by(city=area.city) \
@@ -440,7 +440,7 @@ def create_artist_form():
 @app.route('/artists/create', methods=['POST'])
 def create_artist_submission():
     error = False
-    form = ArtistForm(request.form)
+    form = ArtistForm()
     if not form.validate():
         display_errors(form)
 
@@ -512,13 +512,17 @@ def create_shows():
 @app.route('/shows/create', methods=['POST'])
 def create_show_submission():
     error = False
-    form = ShowForm(request.form)
+    form = ShowForm()
     form.validate()
+    if not form.validate():
+        display_errors(form)
+
+        return render_template('forms/new_show.html', form=form)
   
     try:
-        artist_id = request.form['artist_id']
-        venue_id = request.form['venue_id']
-        start_time = request.form['start_time']
+        artist_id = form.artist_id.data
+        venue_id = form.venue_id.data
+        start_time = form.start_time.data
 
         show = Show(artist_id=artist_id, venue_id=venue_id, start_time=start_time)
         db.session.add(show)
